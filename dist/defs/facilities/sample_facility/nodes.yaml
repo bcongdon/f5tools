@@ -1,0 +1,11 @@
+###################################################################
+# nodes
+#   - Defines the list of nodes to be created
+#   - Should be a list of FQDN's of the Nodes
+#       - When nodes are created, the FQDN is resolved and used as the address of the node
+nodes:
+- host: ss-app-1201.ord.smartsheet.com # => maps to address '10.13.4.84'
+
+# Can also be defined using an arbitrary name, with an FQDN or address as the host name
+- name: SS_APP_EXAMPLE
+  host: ss-app-1202.ord.smartsheet.com

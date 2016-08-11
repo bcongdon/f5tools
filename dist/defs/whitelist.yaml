@@ -1,0 +1,19 @@
+# whitelist.yaml
+#   - Used to describe which F5_Objects are OK to have exist in the server and not in local config
+#   - Maps a F5_Object to a list of regexes that define the whitelist
+#   - Whitelisted items should be used to keep F5 preinstalled objects from cluttering the diff report
+
+Datagroup:
+  - aol
+  - images
+  - private_net
+  - ^ZDT_.+
+
+Rule:
+  - ^_sys_.+
+
+HTTPMonitor:
+  - /Common/htt.+
+
+Pool:
+  - ^POOL_ZDT_.+

@@ -1,0 +1,16 @@
+###################################################################
+# monitors
+#   - Defines a list of monitors
+#   - Format:
+#
+#       - name: MON_EXAMPLE
+#         send: GET
+#         recv: OK
+#
+#   - By convention, monitor names start with "MON_"
+#   - 'send' and 'recv' are strings that define the send message and expected receive message of the monitor
+
+monitors:
+- name: MON_EXAMPLE
+  send: GET
+  recv: OK

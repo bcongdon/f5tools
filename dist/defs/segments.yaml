@@ -1,0 +1,8 @@
+# segments.yaml
+# Global (External) Segments
+#   - Same format as 'external' section of '<FACILITY>/segments.yaml'
+- name: MY_GLOBAL_SEGMENT
+  cidr: 10.80.0.0/14
+
+- name: UNIVERSE
+  cidr: 0.0.0.0/0

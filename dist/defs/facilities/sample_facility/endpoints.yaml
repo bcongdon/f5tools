@@ -1,0 +1,13 @@
+# endpoints.yaml
+#   - Defines the list of endpoints used for Vips
+#   - Format:
+#
+#     - name: <ENDPOINT_NAME>
+#       addr: <IP_ENDPOINT>
+#
+#   - By (enforced) convention, endpoints must contain an underscore
+#       - This is usually to indicate '<Working Group>_<Endpoint Descriptor>'
+- name: PROD_EXAMPLE
+  addr: 1.2.3.4
+- name: SORRY_PAGE
+  addr: 1.2.3.5

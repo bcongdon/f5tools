@@ -1,0 +1,152 @@
+# sample_net_device.yaml
+#   - The NetDevice YAML
+#   - Used to describe all the F5_Objects specific to the net device
+#       - Forwarders, Nodes, Pools, ZDTPools, Vips, and Snatpools, etc.
+
+###################################################################
+# name
+#   - inferred from file name (<net_device_name>.yaml)
+
+###################################################################
+# forwarders
+#   - Defines the list of forwarders to be created
+#   - Source, destination, and service port are inferred as follows:
+#       <SOURCE_SEGMENT>_<DEST_SEGMENT>_<SERVICE_PORT_SYMBOL>
+#   - (Segments defined in '<facility>/segments.yaml', ports in 'port_symbols.yaml')
+#   - Formatted as a list of YAML hashes, each having a "name" and optionally "xsite"
+#       - name: <MY_FWDR_NAME>
+#         [xsite:] true/false
+#         [efwdr:] true/false
+#
+#   - In current implimentation, there's nothing special about EFWDRs, they just exist as
+#     a differentiating label from normal FWDRs
+forwarders:
+  - name: APP_DATA_MYSQL # => Defines forwarder form App segment to Data segment on port 3306
+
+  - name: APP_CORE_HTTPS # => Defines cross-site forwarder from App to Core on port 443 between all facilities
+    xsite: true
+
+  - name: WEB_APP_HTTPS # => Defines an EFWDR from Web to App on HTTPS
+    efwdr: true
+
+###################################################################
+# pools
+#   - Defines the list of pools on the F5 ('non-ZDT')
+#   - Format: (brackets denote optional properties)
+#       
+#       - name: POOL_EXAMPLE
+#         members:
+#           - <node_1>:<port>
+#           - <node_n>:<port>
+#         [failsafes:]
+#           - <node_x>:<port>
+#         [monitors:]
+#           - MON_EXAMPLE
+#   
+#   - Formatting notes:
+#       - 'members' are nodes that _must_ have been defined in the 'nodes' group
+#       - 'members' should have a service port
+#       - 'monitors' must be defined in the 'monitors' group, or default F5 monitors (like 'tcp')
+#   - Failsafes are a set of nodes that _are_ members of the pool, but are in a much lower priority group
+pools:
+  - name: MY_POOL
+    members:
+      - ss-app-1201.ord.smartsheet.com:8080
+    failsafes:
+      - ss-app-1202.ord.smartsheet.com:8080
+    monitors:
+      - tcp
+
+###################################################################
+# vips
+#   - Defines the list of VIPs
+#   - Format:
+#
+#         - name: VIP_EXAMPLE_ENTPOINT_HTTP
+#           [profiles]:
+#             - PROF_HTTP_EXAMPLE
+#           [pool:] MY_POOL
+#           [snatpool:] SNAT_EXAMPLE
+#           [rules:]
+#             - RULE_sample
+#           [zdt_pool:]
+#             - POOL_ZDT_EXAMPLE
+#
+#   - Pools, rules, snatpools, profiles, and zdt_pools must be defined in their respective sections
+#   - Name format is parsed as follows:
+#       - VIP_<ENDPOINT>_<SERVICE_PORT_SYMBOL>
+#       - Endpoint names must alwasy have an underscore to be parsed correctly (i.e. PROD_LOGSTASH)
+#       - By (enforced) convention, vip names start with "VIP_" or "EVIP_"
+vips:
+  - name: EVIP_EXAMPLE_ENDPOINT_HTTP
+    rules:
+      - RULE_Example
+    profiles:
+      - PROF_HTTP_EXAMPLE
+    snatpool: SNAT_EXAMPLE
+
+  - name: EVIP_EXAMPLE_ENDPOINT_ALL
+    rules:
+      - RULE_ZDT_ROUTER_GENERIC
+    snatpool: SNAT_PROD_API
+
+###################################################################
+# snatpools
+#   - Defines a list of snatpools
+#   - Format:
+#
+#       - name: SNAT_EXAMPLE
+#         members: 
+#           - 1.2.3.4
+#           - 1.2.3.5
+#           - 1.2.3.6
+#
+#   - By (enforced) convention, snatpool names start with "SNAT_"
+#   - 'members' is a YAML list of addresses within the snatpool
+snatpools:
+  - name: SNAT_EXAMPLE
+    members:
+      - 1.2.3.4
+      - 1.2.3.5
+      - 1.2.3.6
+
+###################################################################
+# dhcp_node
+#   - The FQDN name for the DHCP Relay node
+#   - Node should be defined in nodes
+#   - Optional net_device property; only necessary if dhcp is needed
+#   - Creates a pool named DHCP_RELAY with this node as the member
+#   - Creates a LTM virtual that points to the DHCP_RELAY pool
+dhcp_node: my-dhcp-node.smartsheet.com
+
+###################################################################
+# vlans
+#   - Defines list of VLANs.
+#   - Segment used to populate SelfIPs
+#       - First IP in segment used as floating IP
+#       - 2nd and 3rd IPs in segment used as A/B F5 pair floating SelfIPs
+#   - Tags optional
+#   - Format:
+#
+#       - name: EXAMPLE-VLAN
+#         segment: <SEGMENT>
+#         [tag:] 123
+vlans:
+  - name: APPLICATION
+    segment: APP
+    tag:  2387
+
+###################################################################
+# esnats
+#   - Defines a list of ESNATs
+#   - Similar to forwarder, but has an associated Snatpool
+#   - Naming format: <SRC-SEGMENT>_<DEST-SEGMENT>_<PORT-SYMBOL>
+#   - Name of snatpool is inferred from source segment name
+#       - There must be a snatpool defined with name 'SNAT_<ENDPOINT1'
+esnats:
+  - name: ENDPOINT1_ENDPOINT2_HTTP
+
+###################################################################
+# hostname
+#   - Hostname used for all data exchange with the F5 Net Device
+hostname: my.f5.hostname

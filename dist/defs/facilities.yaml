@@ -1,0 +1,14 @@
+# Facilities.yaml
+#   - Maps facility names to their CIDR blocks
+#   - Each facility must have an entry in this file
+#   - Format: 
+#       <facility_name>:
+#         internal: <INTERNAL_CIDR_BLOCK>
+#         external: <EXTERNAL_IP_ADDR>
+#
+#   - internal cidr block used for allocating internal segments
+#   - external ip addr used as endpoint for ipsec
+#   
+my_facility:
+  internal: 123.123.0.0/14
+  external: 1.2.3.4

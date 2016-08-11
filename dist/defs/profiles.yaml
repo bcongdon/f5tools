@@ -1,0 +1,25 @@
+# profiles.yaml
+#   - Defines the list of user-added profiles on the F5
+#   - Format:
+#
+#       - name: <PROFILE_NAME>
+#         type: <PROFILE_TYPE>
+#         [optional_args]
+#
+#   - Supported types: 'client-ssl', 'http', 'fastl4'
+#       - More types could easily be supported, but aren't yet 'known good'
+#   - Any key/val pairs in the hash other than 'name' and 'type' will be copied verbatim into the config JSON payload
+#     - Allows for flexibily when setting up different types of profiles
+#     - i.e. "ciphers" is specific-ish to the 'client-ssl' type
+#   - If no defaultsFrom is specified, it will be inferred from the profile type.
+#   - The full name of the profile on the F5 will be constructed with this format: PROF_<TYPE>_<NAME>
+profiles:
+- name: EXAMPLE-SSl
+  type: client-ssl
+  chain: example.crt
+  ciphers: ECDHE-RSA-AES128-CBC-SHA:AES128-SHA256:ECDHE-RSA-AES256-CBC-SHA:AES256-SHA256:ECDHE-RSA-DES-CBC3-SHA:DES-CBC3-SHA:RC4-SHA
+
+- name: EXAMPLE-HTTP
+  type: http
+  defaultsFrom: http
+  insertXforwardedFor: enabled

@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+require 'f5_tools/cli'
+F5_Tools::CLI::CLI.start(ARGV)

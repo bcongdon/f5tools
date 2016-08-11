@@ -1,0 +1,28 @@
+# segments.yaml
+#   - Describes how the facility CIDR block is allocated
+
+
+# internal segments
+#   - Format:
+#             - name: <SEGMENT_NAME>
+#               size: <CIDR_BLOCK_SIZE>
+#   - Order matters - allocation starts at the address specified in facilities.yaml
+#                   - script iterates through this list in order as it allocates the segments
+#   - For intentionally allocated, but unused segments, but a '~' in front of the name
+#       - The segment will be allocated, but the name will not be registered.
+internal:
+- name: ~RESERVED
+  size: 22
+
+- name: MY_SEGMENT
+  size: 22
+
+
+# external segments
+#   - Format:
+#             - name: <SEGMENT_NAME>
+#               cidr: <CIDR_BLOCK>
+#   - Manually defined segments, usually for referencing external segments
+external:
+  - name: EXT_SEGMENT
+    cidr: 10.0.0.0/14

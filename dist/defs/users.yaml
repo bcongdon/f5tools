@@ -1,0 +1,11 @@
+# users.yaml
+# Holds user account information
+# Passwords should be stored as SHA-512 hashes (the format F5's use internally)
+# Partition level user permissions can be applied by adding entries to a user's
+#   partition_access field
+users:
+  - name: example_user
+    encrypted_password: <SHA-512 hash>
+    partition_access:
+      - name: all-partitions
+        role: admin

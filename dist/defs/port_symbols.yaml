@@ -1,0 +1,11 @@
+# port_symbols.yaml
+#   - Used to map the service ports to human friendly names
+#   - Used with forwarders to infer port routing
+#   - Format:
+#             - name: <SERVICE_NAME>
+#               port: <PORT>
+
+- name: EXAMPLE_SERVICE
+  port: 123
+- name: ANOTHER_SERVICE
+  port: 456

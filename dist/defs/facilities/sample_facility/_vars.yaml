@@ -1,0 +1,5 @@
+# Veriables to be used in device template rendering.
+# For example, I can define "short_name" like so:
+short_name: "sea"
+# ... and then use that in my device template as
+#     "{{ short_name }}"

@@ -1,0 +1,7 @@
+# RULE_sample
+#   - iRule should be entered verbatim
+#   - Name of iRule inferred from file name
+
+when HTTP_REQUEST {
+
+}

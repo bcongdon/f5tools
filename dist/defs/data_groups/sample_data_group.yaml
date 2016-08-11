@@ -1,0 +1,22 @@
+
+# sample_data_group.yaml
+
+# Name
+#   - inferred from filename (<DATA_GROUP_NAME>.yaml)
+
+# Type
+#   - Valid types: address, string, integer
+#   - 'type' specifies the data type of members' keys
+type: string
+
+# Members 
+#  - formatted as a YAML hash
+#  - Format is as expected:
+#       <KEY>:<VALUE>
+members:
+  buzz: 1.1
+  rex: 1.2
+  bo: 1.3
+  hamm: 2.0
+  slink: 2.1
+  potato: 2.2
