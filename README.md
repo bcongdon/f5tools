@@ -220,3 +220,12 @@ Loosely wraps the iControl REST API. Provides `#authentication` method, and `get
 
 1. Run `rake yard` to generate the docs.
 2. Run `yard server` to start docs server on `localhost:8808` (by default)
+
+## Compatibility
+* F5Tools was tested against F5's Big-IP LTM version v11.6.
+    * As F5Tools uses the REST API, it will not work on versions prior to v11.6. Versions >v11.6 should be compatible, but your milage may vary.
+* F5Tools was developed and tested on Debian and CentOS 7
+
+## License
+
+F5Tools is licensed under the Apache-2 Licensed. See [LICENSE](/LICENSE) for details.
